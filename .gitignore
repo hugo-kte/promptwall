@@ -1,0 +1,23 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Datasets, trained artifacts and runtime output (anchored to the repo root)
+/data/
+/artifacts/
+/runtime/
+/logs/
+
+# Editors / OS / local tooling
+.DS_Store
+.idea/
+.vscode/
+.claude/

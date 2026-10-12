@@ -1,0 +1,40 @@
+# PromptWall policy. Every field is optional; defaults are shown.
+mode: enforce              # enforce | monitor (log decisions, change nothing: safe rollout)
+block_response: error      # error (HTTP 403, OpenAI error schema) | message (refusal completion)
+
+upstream:
+  base_url: http://localhost:11434/v1   # Ollama; any OpenAI-compatible API works
+  api_key_env: null                     # e.g. OPENAI_API_KEY: read from the environment
+  timeout_s: 180
+
+input:
+  injection:
+    action: block
+    model_dir: artifacts/injection
+    threshold: null        # null = threshold calibrated at training time (1% FPR budget)
+    roles: [user, tool]    # tool results carry indirect injections (RAG, browsing)
+  pii:
+    action: redact         # reversible: placeholders are swapped back in the answer
+    entities: [EMAIL, PHONE, CREDIT_CARD, IBAN, FR_NIR, IP_ADDRESS]
+  secrets:
+    action: block          # never send credentials to a third-party model
+  max_chars: 50000
+
+output:
+  canary:
+    action: block          # system-prompt leak detected through a planted canary token
+  secrets:
+    action: redact
+  pii:
+    action: redact         # personal data the user did not provide (e.g. leaked from context)
+  links:
+    action: redact
+    allowed_domains: []    # images/links to other hosts are neutralised
+
+rate_limit:
+  requests_per_minute: 60
+  burst: 20
+
+audit:
+  path: runtime/audit.jsonl
+  store_text: false

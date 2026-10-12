@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "promptwall"
+version = "0.1.0"
+description = "LLM firewall: an OpenAI-compatible proxy that blocks prompt injections, pseudonymises PII and filters model outputs."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{ name = "Hugo" }]
+keywords = ["llm", "security", "prompt-injection", "guardrails", "pii", "proxy", "owasp-llm-top-10"]
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "httpx>=0.27",
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+    "rich>=13.7",
+    "scikit-learn>=1.5",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pyarrow>=15",
+    "joblib>=1.3",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff==0.17.0"]
+
+[project.scripts]
+promptwall = "promptwall.cli:app"
+
+[project.urls]
+Repository = "https://github.com/hugo-kte/promptwall"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/promptwall"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"
+filterwarnings = ["ignore:Using `httpx` with `starlette.testclient`"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "N"]
+ignore = [
+    "N803", "N806",  # X/y naming is idiomatic in ML code
+    "RUF001", "RUF002", "RUF003",
+    "N818",  # `Blocked` reads better than `BlockedError` at call sites
+]
+
+[tool.coverage.run]
+source = ["promptwall"]

@@ -1,0 +1,323 @@
+{
+  "generated_at": "2026-10-11T20:31:13+00:00",
+  "target_fpr": 0.01,
+  "dataset_sizes": {
+    "deepset/test": {
+      "rows": 116,
+      "injections": 60
+    },
+    "deepset/train": {
+      "rows": 436,
+      "injections": 162
+    },
+    "deepset/val": {
+      "rows": 110,
+      "injections": 41
+    },
+    "dolly/test": {
+      "rows": 2989,
+      "injections": 0
+    },
+    "dolly/train": {
+      "rows": 8903,
+      "injections": 0
+    },
+    "dolly/val": {
+      "rows": 2937,
+      "injections": 0
+    },
+    "jackhhao/test": {
+      "rows": 258,
+      "injections": 136
+    },
+    "jackhhao/train": {
+      "rows": 828,
+      "injections": 415
+    },
+    "jackhhao/val": {
+      "rows": 205,
+      "injections": 102
+    },
+    "spml/test": {
+      "rows": 3148,
+      "injections": 2499
+    },
+    "spml/train": {
+      "rows": 11183,
+      "injections": 8784
+    },
+    "spml/val": {
+      "rows": 1586,
+      "injections": 1258
+    }
+  },
+  "experiments": {
+    "multi-source": {
+      "threshold": 0.5338296097116482,
+      "results": {
+        "spml": {
+          "n": 3148,
+          "n_injection": 2499,
+          "detection_rate": 0.9867947178871549,
+          "false_positive_rate": 0.01694915254237288,
+          "roc_auc": 0.9983555826028409,
+          "pr_auc": 0.9995827332660918
+        },
+        "deepset": {
+          "n": 116,
+          "n_injection": 60,
+          "detection_rate": 0.45,
+          "false_positive_rate": 0.0,
+          "roc_auc": 0.9044642857142857,
+          "pr_auc": 0.9294839334111776
+        },
+        "jackhhao": {
+          "n": 258,
+          "n_injection": 136,
+          "detection_rate": 0.9485294117647058,
+          "false_positive_rate": 0.00819672131147541,
+          "roc_auc": 0.9919840887174541,
+          "pr_auc": 0.9938099407480907
+        },
+        "dolly": {
+          "n": 2989,
+          "n_injection": 0,
+          "detection_rate": null,
+          "false_positive_rate": 0.00033456005352960856,
+          "roc_auc": null,
+          "pr_auc": null
+        }
+      }
+    },
+    "single-source": {
+      "threshold": 0.5372027927160163,
+      "results": {
+        "spml": {
+          "n": 3148,
+          "n_injection": 2499,
+          "detection_rate": 0.9879951980792316,
+          "false_positive_rate": 0.020030816640986132,
+          "roc_auc": 0.9982100698522861,
+          "pr_auc": 0.9995418297650271
+        },
+        "deepset": {
+          "n": 662,
+          "n_injection": 263,
+          "detection_rate": 0.1520912547528517,
+          "false_positive_rate": 0.010025062656641603,
+          "roc_auc": 0.7876726035621373,
+          "pr_auc": 0.7183544157354329
+        },
+        "jackhhao": {
+          "n": 1291,
+          "n_injection": 653,
+          "detection_rate": 0.8315467075038285,
+          "false_positive_rate": 0.06739811912225706,
+          "roc_auc": 0.9457027368259348,
+          "pr_auc": 0.9553944334603057
+        },
+        "dolly": {
+          "n": 2989,
+          "n_injection": 0,
+          "detection_rate": null,
+          "false_positive_rate": 0.0,
+          "roc_auc": null,
+          "pr_auc": null
+        }
+      }
+    },
+    "multi-source, pooled calibration": {
+      "threshold": 0.3686896681167058,
+      "results": {
+        "spml": {
+          "n": 3148,
+          "n_injection": 2499,
+          "detection_rate": 0.9911964785914366,
+          "false_positive_rate": 0.040061633281972264,
+          "roc_auc": 0.9983555826028409,
+          "pr_auc": 0.9995827332660918
+        },
+        "deepset": {
+          "n": 116,
+          "n_injection": 60,
+          "detection_rate": 0.55,
+          "false_positive_rate": 0.0,
+          "roc_auc": 0.9044642857142857,
+          "pr_auc": 0.9294839334111776
+        },
+        "jackhhao": {
+          "n": 258,
+          "n_injection": 136,
+          "detection_rate": 0.9705882352941176,
+          "false_positive_rate": 0.06557377049180328,
+          "roc_auc": 0.9919840887174541,
+          "pr_auc": 0.9938099407480907
+        },
+        "dolly": {
+          "n": 2989,
+          "n_injection": 0,
+          "detection_rate": null,
+          "false_positive_rate": 0.0020073603211776514,
+          "roc_auc": null,
+          "pr_auc": null
+        }
+      }
+    },
+    "multi-source, word n-grams only": {
+      "threshold": 0.7482489179703325,
+      "results": {
+        "spml": {
+          "n": 3148,
+          "n_injection": 2499,
+          "detection_rate": 0.9635854341736695,
+          "false_positive_rate": 0.0030816640986132513,
+          "roc_auc": 0.9977562673759797,
+          "pr_auc": 0.9994331698148522
+        },
+        "deepset": {
+          "n": 116,
+          "n_injection": 60,
+          "detection_rate": 0.2833333333333333,
+          "false_positive_rate": 0.0,
+          "roc_auc": 0.9032738095238094,
+          "pr_auc": 0.9249996786529521
+        },
+        "jackhhao": {
+          "n": 258,
+          "n_injection": 136,
+          "detection_rate": 0.8897058823529411,
+          "false_positive_rate": 0.01639344262295082,
+          "roc_auc": 0.9925867888138862,
+          "pr_auc": 0.9939025799291058
+        },
+        "dolly": {
+          "n": 2989,
+          "n_injection": 0,
+          "detection_rate": null,
+          "false_positive_rate": 0.0,
+          "roc_auc": null,
+          "pr_auc": null
+        }
+      }
+    },
+    "multi-source, char n-grams only": {
+      "threshold": 0.7058670295294015,
+      "results": {
+        "spml": {
+          "n": 3148,
+          "n_injection": 2499,
+          "detection_rate": 0.9679871948779512,
+          "false_positive_rate": 0.0061633281972265025,
+          "roc_auc": 0.997923360407337,
+          "pr_auc": 0.9994704353255945
+        },
+        "deepset": {
+          "n": 116,
+          "n_injection": 60,
+          "detection_rate": 0.23333333333333334,
+          "false_positive_rate": 0.0,
+          "roc_auc": 0.8895833333333333,
+          "pr_auc": 0.9169696205066525
+        },
+        "jackhhao": {
+          "n": 258,
+          "n_injection": 136,
+          "detection_rate": 0.8970588235294118,
+          "false_positive_rate": 0.0,
+          "roc_auc": 0.9856557377049181,
+          "pr_auc": 0.9897644634892732
+        },
+        "dolly": {
+          "n": 2989,
+          "n_injection": 0,
+          "detection_rate": null,
+          "false_positive_rate": 0.0,
+          "roc_auc": null,
+          "pr_auc": null
+        }
+      }
+    }
+  },
+  "shipped_model": {
+    "experiment": "multi-source",
+    "features": "word+char",
+    "target_fpr": 0.01,
+    "calibration": "worst-case",
+    "train_rows": 21350,
+    "train_sources": [
+      "spml",
+      "deepset",
+      "jackhhao",
+      "dolly"
+    ],
+    "fit_seconds": 23.7,
+    "dataset_sizes": {
+      "deepset/test": 116,
+      "deepset/train": 436,
+      "deepset/val": 110,
+      "dolly/test": 2989,
+      "dolly/train": 8903,
+      "dolly/val": 2937,
+      "jackhhao/test": 258,
+      "jackhhao/train": 828,
+      "jackhhao/val": 205,
+      "spml/test": 3148,
+      "spml/train": 11183,
+      "spml/val": 1586
+    },
+    "threshold": 0.5338296097116482
+  },
+  "classifier_latency_ms": {
+    "p50": 1.8788664892781526,
+    "p95": 4.567699057224667,
+    "p99": 7.920289613248314
+  },
+  "proxy_overhead": {
+    "requests": 300,
+    "guard_ms": {
+      "p50": 2.3,
+      "p95": 5.499500000000002
+    },
+    "request_ms": {
+      "p50": 3.315668014693074,
+      "p95": 6.756044046778699
+    }
+  },
+  "pii_benchmark": {
+    "samples": 2000,
+    "per_entity": {
+      "EMAIL": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 253
+      },
+      "PHONE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 291
+      },
+      "CREDIT_CARD": {
+        "precision": 0.9824561403508771,
+        "recall": 1.0,
+        "support": 224
+      },
+      "IBAN": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 230
+      },
+      "FR_NIR": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 254
+      },
+      "IP_ADDRESS": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 252
+      }
+    },
+    "precision": 0.9973474801061007,
+    "recall": 1.0
+  }
+}
