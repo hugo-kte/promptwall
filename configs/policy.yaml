@@ -13,6 +13,7 @@ input:
     model_dir: artifacts/injection
     threshold: null        # null = threshold calibrated at training time (1% FPR budget)
     roles: [user, tool]    # tool results carry indirect injections (RAG, browsing)
+    required: false        # true: refuse to start without a trained model (fail closed)
   pii:
     action: redact         # reversible: placeholders are swapped back in the answer
     entities: [EMAIL, PHONE, CREDIT_CARD, IBAN, FR_NIR, IP_ADDRESS]

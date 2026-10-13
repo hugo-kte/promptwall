@@ -36,6 +36,11 @@ def load_injection_model(policy: Policy) -> Any:
     try:
         return InjectionModel.load(policy.input.injection.model_dir)
     except FileNotFoundError:
+        if policy.input.injection.required:
+            raise RuntimeError(
+                f"no injection model in {policy.input.injection.model_dir} and "
+                "input.injection.required is set: refusing to start without it"
+            ) from None
         log.warning(
             "no injection model in %s: injection scanning disabled (run `promptwall evaluate`)",
             policy.input.injection.model_dir,

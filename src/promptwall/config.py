@@ -28,6 +28,7 @@ class InjectionPolicy(_Strict):
     model_dir: Path = Path("artifacts/injection")
     threshold: float | None = None  # None: the threshold calibrated at training time
     roles: list[str] = Field(default_factory=lambda: ["user", "tool"])
+    required: bool = False  # true: refuse to start without a model (fail closed)
 
 
 class PIIPolicy(_Strict):

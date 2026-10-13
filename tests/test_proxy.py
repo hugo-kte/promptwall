@@ -121,6 +121,16 @@ def test_store_text_is_ignored_when_prompts_would_not_be_rewritten(tmp_path):
     assert "text" not in audit(tmp_path)[0]
 
 
+def test_missing_model_fails_open_by_default_and_closed_on_request(tmp_path):
+    from promptwall.proxy.app import load_injection_model
+
+    absent = {"model_dir": str(tmp_path / "no-model")}
+    assert load_injection_model(Policy.model_validate({"input": {"injection": absent}})) is None
+    strict = Policy.model_validate({"input": {"injection": absent | {"required": True}}})
+    with pytest.raises(RuntimeError, match="refusing to start"):
+        load_injection_model(strict)
+
+
 def test_injection_is_blocked_before_reaching_the_model(tmp_path):
     upstream = Upstream()
     with make_client(tmp_path, upstream) as client:

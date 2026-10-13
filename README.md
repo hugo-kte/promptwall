@@ -131,7 +131,8 @@ docker run -p 8080:8080 -v "$PWD/artifacts:/app/artifacts:ro" promptwall \
 Inside a container, `localhost` is the container itself: set `upstream.base_url` to
 `http://host.docker.internal:11434/v1` to reach an Ollama running on the host. Without a trained
 model in `artifacts/` (run `make evaluate` first), the proxy still starts but with injection
-scanning disabled: it logs a warning and `/healthz` reports `"injection_model": false`.
+scanning disabled: it logs a warning and `/healthz` reports `"injection_model": false`. Set
+`input.injection.required: true` to make it refuse to start instead (fail closed).
 
 ## Policy
 
@@ -223,7 +224,7 @@ src/promptwall/
 configs/policy.yaml
 reports/           metrics.json, REPORT.md, figures/
 docs/THREAT_MODEL.md
-tests/             45 tests, no network or dataset needed
+tests/             46 tests, no network or dataset needed
 ```
 
 ## Limitations
