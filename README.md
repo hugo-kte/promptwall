@@ -262,3 +262,9 @@ tests/             46 tests, no network or dataset needed
 ## License
 
 [MIT](LICENSE). Datasets are downloaded from their sources and keep their own licences.
+
+<!-- portfolio-footer -->
+
+---
+
+<sub>Part of a cybersecurity & AI engineering portfolio: [FlowGuard](https://github.com/hugo-kte/flowguard-nids) (network IDS) · [Detection-as-code](https://github.com/hugo-kte/detection-as-code) (Sigma rules) · [Insider-threat UEBA](https://github.com/hugo-kte/insider-threat-ueba) · [AlertLens](https://github.com/hugo-kte/alertlens) (SOC triage) · **PromptWall (LLM firewall)** · [MLSeal](https://github.com/hugo-kte/secure-mlops-pipeline) (secure MLOps) · [Gleaner](https://github.com/hugo-kte/cti-to-stix) (CTI to STIX).</sub>
