@@ -1,6 +1,6 @@
 """Prompt-injection classifier: TF-IDF word + character n-grams, logistic regression.
 
-A linear model on n-grams is fast (well under a millisecond per prompt), needs no GPU and its
+A linear model on n-grams is fast (about 2 ms per prompt on a laptop CPU), needs no GPU and its
 decisions can be inspected feature by feature, which matters for a security control that
 blocks traffic. The alert threshold is calibrated on benign validation prompts to a fixed
 false-positive budget rather than left at 0.5.

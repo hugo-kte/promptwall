@@ -16,6 +16,7 @@ from promptwall import __version__
 from promptwall.config import Policy
 from promptwall.proxy.pipeline import Blocked, Context, Guard, refusal_completion, to_sse
 from promptwall.proxy.telemetry import AuditLog, Metrics, RateLimiter, client_id
+from promptwall.scanners.base import Action
 
 log = logging.getLogger("promptwall")
 
@@ -29,7 +30,7 @@ def load_injection_model(policy: Policy) -> Any:
         return InjectionModel.load(policy.input.injection.model_dir)
     except FileNotFoundError:
         log.warning(
-            "no injection model in %s: injection scanning disabled (run `promptwall train`)",
+            "no injection model in %s: injection scanning disabled (run `promptwall evaluate`)",
             policy.input.injection.model_dir,
         )
         return None
@@ -125,10 +126,8 @@ def create_app(
             completion = guard.check_response(resp.json(), ctx)
             guard_s += time.perf_counter() - t_out
             action = max(
-                (f.action.value for f in ctx.findings),
-                default="allow",
-                key=lambda a: ["allow", "monitor", "redact", "block"].index(a),
-            )
+                (f.action for f in ctx.findings), default=Action.ALLOW, key=lambda a: a.severity
+            ).value
             metrics.observe(action, ctx.findings, guard_s)
             audit.write(
                 ctx.request_id,

@@ -5,7 +5,7 @@ block_response: error      # error (HTTP 403, OpenAI error schema) | message (re
 upstream:
   base_url: http://localhost:11434/v1   # Ollama; any OpenAI-compatible API works
   api_key_env: null                     # e.g. OPENAI_API_KEY: read from the environment
-  timeout_s: 180
+  timeout_s: 180                        # default 120; small local models on a CPU can be slow
 
 input:
   injection:

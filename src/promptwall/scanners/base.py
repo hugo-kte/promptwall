@@ -28,7 +28,11 @@ class Finding:
     detail: str = ""
 
     def to_dict(self) -> dict[str, object]:
-        out: dict[str, object] = {"scanner": self.scanner, "kind": self.kind, "action": self.action}
+        out: dict[str, object] = {
+            "scanner": self.scanner,
+            "kind": self.kind,
+            "action": self.action.value,
+        }
         if self.score is not None:
             out["score"] = round(self.score, 4)
         if self.detail:
