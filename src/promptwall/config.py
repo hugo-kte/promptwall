@@ -72,6 +72,7 @@ class RateLimit(_Strict):
 class Audit(_Strict):
     path: Path = Path("runtime/audit.jsonl")
     store_text: bool = False  # off by default: the audit log must not become a PII store
+    # Only honoured when the guard rewrites user text (see Policy.audit_text_allowed).
 
 
 class Policy(_Strict):
@@ -82,6 +83,22 @@ class Policy(_Strict):
     output: OutputPolicy = OutputPolicy()
     rate_limit: RateLimit = RateLimit()
     audit: Audit = Audit()
+
+    @property
+    def audit_text_allowed(self) -> bool:
+        """``audit.store_text`` takes effect only if forwarded user text is always rewritten:
+        enforce mode, PII redacted and secrets blocked or redacted in user messages."""
+        inp = self.input
+        return (
+            self.audit.store_text
+            and self.mode == "enforce"
+            and inp.pii.enabled
+            and inp.pii.action is Action.REDACT
+            and "user" in inp.pii.roles
+            and inp.secrets.enabled
+            and inp.secrets.action in (Action.REDACT, Action.BLOCK)
+            and "user" in inp.secrets.roles
+        )
 
     @classmethod
     def load(cls, path: str | Path | None) -> Policy:

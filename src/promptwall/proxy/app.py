@@ -14,7 +14,14 @@ from fastapi.responses import JSONResponse, PlainTextResponse, Response
 
 from promptwall import __version__
 from promptwall.config import Policy
-from promptwall.proxy.pipeline import Blocked, Context, Guard, refusal_completion, to_sse
+from promptwall.proxy.pipeline import (
+    Blocked,
+    Context,
+    Guard,
+    last_user_text,
+    refusal_completion,
+    to_sse,
+)
 from promptwall.proxy.telemetry import AuditLog, Metrics, RateLimiter, client_id
 from promptwall.scanners.base import Action
 
@@ -42,7 +49,12 @@ def create_app(
     transport: httpx.AsyncBaseTransport | None = None,
 ) -> FastAPI:
     guard = Guard(policy, injection_model)
-    audit = AuditLog(policy.audit.path, policy.audit.store_text)
+    audit = AuditLog(policy.audit.path, policy.audit_text_allowed)
+    if policy.audit.store_text and not policy.audit_text_allowed:
+        log.warning(
+            "audit.store_text ignored: prompts are only stored when PII redaction and secret "
+            "blocking/redaction are enforced on user messages"
+        )
     metrics = Metrics()
     limiter = RateLimiter(policy.rate_limit.requests_per_minute, policy.rate_limit.burst)
 
@@ -138,6 +150,7 @@ def create_app(
                 guard_s * 1000,
                 upstream_ms,
                 200,
+                text=last_user_text(forwarded),  # stored only if audit_text_allowed
             )
             headers = {"X-PromptWall-Request-Id": ctx.request_id, "X-PromptWall-Action": action}
             if body.get("stream"):
@@ -147,6 +160,7 @@ def create_app(
             ctx = err.ctx or ctx
             guard_s = time.perf_counter() - t0 - (upstream_ms or 0) / 1000
             metrics.observe("block", ctx.findings or [err.finding], guard_s)
+            # never the text of a blocked request: it is exactly what the policy refused
             audit.write(
                 ctx.request_id,
                 client,

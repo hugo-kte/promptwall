@@ -151,7 +151,7 @@ output:
   canary: {action: block}
   links: {action: redact, allowed_domains: [docs.example.com]}
 audit:
-  store_text: false        # the audit log keeps decisions, not conversations
+  store_text: false        # decisions, not conversations (if on: pseudonymised prompts only)
 ```
 
 Each response carries `X-PromptWall-Request-Id` and `X-PromptWall-Action` headers that match
@@ -223,7 +223,7 @@ src/promptwall/
 configs/policy.yaml
 reports/           metrics.json, REPORT.md, figures/
 docs/THREAT_MODEL.md
-tests/             43 tests, no network or dataset needed
+tests/             45 tests, no network or dataset needed
 ```
 
 ## Limitations

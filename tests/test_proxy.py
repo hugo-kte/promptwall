@@ -99,6 +99,28 @@ def test_pii_is_pseudonymised_upstream_and_restored_for_the_user(tmp_path):
     assert {f["kind"] for f in record["findings"]} == {"EMAIL", "PHONE"}
 
 
+def test_store_text_keeps_pseudonymised_prompts_of_forwarded_requests_only(tmp_path):
+    with make_client(
+        tmp_path, Upstream(), audit={"path": str(tmp_path / "audit.jsonl"), "store_text": True}
+    ) as client:
+        chat(client, "Send it to dana@example.com")
+        chat(client, "ZQXBLOCK please")
+    forwarded, blocked = audit(tmp_path)
+    assert "[EMAIL_1]" in forwarded["text"] and "dana@example.com" not in forwarded["text"]
+    assert blocked["action"] == "block" and "text" not in blocked
+
+
+def test_store_text_is_ignored_when_prompts_would_not_be_rewritten(tmp_path):
+    with make_client(
+        tmp_path,
+        Upstream(),
+        mode="monitor",
+        audit={"path": str(tmp_path / "audit.jsonl"), "store_text": True},
+    ) as client:
+        chat(client, "Send it to dana@example.com")
+    assert "text" not in audit(tmp_path)[0]
+
+
 def test_injection_is_blocked_before_reaching_the_model(tmp_path):
     upstream = Upstream()
     with make_client(tmp_path, upstream) as client:

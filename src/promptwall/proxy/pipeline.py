@@ -57,6 +57,14 @@ def _texts(message: Message) -> list[str]:
     return seen
 
 
+def last_user_text(body: dict[str, Any]) -> str | None:
+    """Text of the last user message of a request body (as forwarded: already rewritten)."""
+    for message in reversed(body.get("messages") or []):
+        if message.get("role") == "user":
+            return "\n".join(_texts(message))
+    return None
+
+
 class Guard:
     def __init__(self, policy: Policy, injection_model: Any = None) -> None:
         self.policy = policy

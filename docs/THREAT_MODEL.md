@@ -49,4 +49,6 @@ its users' sessions. This page states what that position can and cannot defend.
   e-mail address or a card number (rare in support flows) degrade when PII redaction is on.
 * The audit log stores decisions, scores and hashed client identifiers, not prompts. Turning
   `store_text` on makes it a sensitive dataset (pseudonymised, but still a log of
-  conversations).
+  conversations). It is only honoured for forwarded requests whose user text the guard
+  rewrites (enforce mode, PII redaction, secrets blocked or redacted): never for blocked
+  requests and never in monitor mode.
