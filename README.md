@@ -129,7 +129,9 @@ docker run -p 8080:8080 -v "$PWD/artifacts:/app/artifacts:ro" promptwall \
 ```
 
 Inside a container, `localhost` is the container itself: set `upstream.base_url` to
-`http://host.docker.internal:11434/v1` to reach an Ollama running on the host.
+`http://host.docker.internal:11434/v1` to reach an Ollama running on the host. Without a trained
+model in `artifacts/` (run `make evaluate` first), the proxy still starts but with injection
+scanning disabled: it logs a warning and `/healthz` reports `"injection_model": false`.
 
 ## Policy
 
