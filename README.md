@@ -41,7 +41,8 @@ safe rollout.
 2. **Calibrate on the traffic you protect, source by source.** A threshold calibrated on the
    pooled benign data looks excellent on generic prompts (0.2% false positives) but blocks
    **4%** of real chatbot questions. Calibrating so that *every* benign source meets the 1%
-   budget brings that to 1.7%, at a cost of 0.4 points of detection.
+   budget on validation data brings that to 1.7% on unseen chatbots, at a cost of 0.4 points
+   of detection there (2 to 10 points on the two smaller datasets).
 3. **Deterministic checks do the heavy lifting where they can.** Checksum-validated PII,
    documented key formats and canary tokens make no probabilistic guesses: the classifier is
    only used where nothing deterministic exists.
@@ -186,9 +187,10 @@ complementary: either alone loses 2 to 22 points of detection.
 
 ![ROC per source](reports/figures/roc.png)
 
-On deepset the shipped threshold sits below what that source alone would allow: the threshold
-is set by the hardest benign source (in-context chatbot questions), which is the price of
-keeping the false-positive budget everywhere.
+On deepset the shipped operating point sits below the curve: a threshold tuned for that source
+alone would catch more injections at zero false positives, but the shared threshold is set by
+the hardest benign source (in-context chatbot questions). That is the price of keeping the
+false-positive budget everywhere.
 
 ## PII detection
 

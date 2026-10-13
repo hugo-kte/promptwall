@@ -39,8 +39,9 @@ its users' sessions. This page states what that position can and cannot defend.
 
 ## Residual risks and operating guidance
 
-* A classifier is a probabilistic control. The shipped threshold blocks about 1% of benign
-  in-context questions; tune it on your own traffic in monitor mode before enforcing.
+* A classifier is a probabilistic control. The shipped threshold blocks 1.7% of benign
+  in-context questions on the test chatbots (the 1% budget is met on validation chatbots, not
+  on unseen ones); tune it on your own traffic in monitor mode before enforcing.
 * Expect evasion. The cross-source evaluation shows detection dropping from 99% to 15% on
   attacks written in a style the model never saw: treat the classifier as one layer, never as
   the only one.
