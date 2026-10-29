@@ -11,7 +11,7 @@ permissions:
 jobs:
   test:
     name: Lint & test (Python ${{ matrix.python-version }})
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -22,7 +22,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-      - run: pip install -e ".[dev]"
+          cache-dependency-path: |
+            pyproject.toml
+            constraints.txt
+      - name: Install (dependency versions pinned by constraints.txt)
+        run: pip install -e ".[dev]" -c constraints.txt
       - name: Lint
         run: |
           ruff check src tests
@@ -32,7 +36,7 @@ jobs:
 
   docker:
     name: Docker image builds and serves
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
       - run: docker build -t promptwall:ci .

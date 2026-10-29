@@ -3,15 +3,18 @@ POLICY  ?= configs/policy.yaml
 export PYTHONPATH := src
 
 .DEFAULT_GOAL := help
-.PHONY: help install data evaluate serve demo test lint format docker-build clean
+.PHONY: help install lock data evaluate serve demo test lint format docker-build clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-13s\033[0m %s\n", $$1, $$2}'
 
-install: ## Create .venv and install PromptWall with dev tools
+install: ## Create .venv and install PromptWall with dev tools (versions pinned by constraints.txt)
 	python3 -m venv .venv
 	$(PY) -m pip install --upgrade pip
-	$(PY) -m pip install -e ".[dev]"
+	$(PY) -m pip install -e ".[dev]" -c constraints.txt
+
+lock: ## Re-pin constraints.txt to the latest versions pyproject.toml allows (needs uv)
+	uv pip compile pyproject.toml --extra dev --universal --python-version 3.11 -o constraints.txt
 
 data: ## Download the four public datasets (~20 MB)
 	$(PY) -m promptwall download
